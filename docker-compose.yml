@@ -1,0 +1,56 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - TZ
+      - PORT=8080
+      - HOST
+      - LOG_LEVEL
+      - DEFAULT_ROLE
+      - APP_KEY
+      - DB_HOST
+      - DB_PORT
+      - DB_USER
+      - DB_PASSWORD
+      - DB_DATABASE
+      - SESSION_DRIVER
+      - FIRST_GATEWAY_URL
+      - FIRST_GATEWAY_PAYMENT_ROUTE
+      - FIRST_GATEWAY_REFUND_ROUTE
+      - SECOND_GATEWAY_URL
+      - SECOND_GATEWAY_PAYMENT_ROUTE
+      - SECOND_GATEWAY_REFUND_ROUTE
+    depends_on:
+      - mysql
+    networks:
+      - mynetwork
+  mysql:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - '3307:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - mynetwork
+  gateways:
+    image: matheusprotzen/gateways-mock
+    ports:
+      - '3001:3001'
+      - '3002:3002'
+    networks:
+      - mynetwork
+
+volumes:
+  mysql-data:
+    driver: local
+networks:
+  mynetwork:
+    driver: bridge
