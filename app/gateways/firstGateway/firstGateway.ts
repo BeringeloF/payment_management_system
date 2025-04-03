@@ -8,8 +8,8 @@ export const firstGatewayLogin = async () => {
     const data = await axios(`${url}/login`, {
       method: 'POST',
       data: {
-        email: 'dev@betalent.tech',
-        token: 'FEC9BB078BF338F464F96B48089EB498',
+        email: env.get('FIRST_GATEWAY_AUTH_EMAIL'),
+        token: env.get('FIRST_GATEWAY_AUTH_TOKEN'),
       },
     })
     console.log('AXIOS RESPONSE', data.data.token)

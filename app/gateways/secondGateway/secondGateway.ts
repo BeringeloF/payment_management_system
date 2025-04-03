@@ -1,11 +1,12 @@
 import axios from 'axios'
+import env from '#start/env'
 import { Exception } from '@adonisjs/core/exceptions'
 
 export const secondGatewayLogin = () => {
   try {
     return {
-      'Gateway-Auth-Token': 'tk_f2198cc671b5289fa856',
-      'Gateway-Auth-Secret': '3d15e8ed6131446ea7e3456728b1211f',
+      'Gateway-Auth-Token': env.get('SECOND_GATEWAY_AUTH_GENERAL_AUTH_TOKEN'),
+      'Gateway-Auth-Secret': env.get('SECOND_GATEWAY_AUTH_GENERAL_AUTH_SECRET'),
     }
   } catch (err) {
     throw err
